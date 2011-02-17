@@ -1,0 +1,40 @@
+\newcounter{definition}[section]
+
+% definition
+\newenvironment{definition}[0]
+{
+    \stepcounter{definition}
+    \paragraph*{Definition \thesection.\thedefinition}
+}
+{
+
+}
+
+% beispiel
+\newenvironment{beispiel}[0]
+{
+    %\stepcounter{beispiel}
+    \paragraph*{Beispiel}
+}
+{
+
+}
+
+% bemerkung
+\newenvironment{bemerkung}[0]
+{
+    \paragraph*{Bemerkung}
+}
+{
+
+}
+
+% beweis
+\newenvironment{beweis}[0]
+{
+    \paragraph*{Beweis}
+}
+{
+
+}
+
