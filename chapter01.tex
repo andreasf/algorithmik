@@ -4,6 +4,11 @@
 
 
 \begin{definition}
+	\index{Graph}
+	\index{Endpunkte}
+	\index{Parallelität}
+	\index{Grad}
+	
 	Ein ungerichteter Graph ist ein Paar $G = (V,E)$, mit $V, E$ Mengen. $V$ heißt Menge von Knoten, $E$ heißt Menge von Kanten. Außerdem gibt es eine Funktion $i: E \rightarrow \mathcal{P}(V)$ mit $\mathcal{P}(V) = 2^V$ (Potenzmenge) und $0 < i(e) \leq 2$. $i$ gibt die Endpunkte einer Kante an.
 	
 	Ist $i(e) = \{ u, v \}$, so heißen $u, v$ Endpunkte von $e$. Ist $i(e_1) = i(e_2)$, so heißen $e_1, e_2$ parallel. Ist $|i(e)| = 1$, so heißt $e$ Schleife.
@@ -90,6 +95,9 @@
 
 
 \begin{definition}
+	\index{Weg}
+	\index{Schleife}
+	
 	Sei $G = (V,E)$ ein Graph. Sind $v_1, v_2$ die Endpunkte von $e$, so heißen $v_1, v_2$ benachbart. Ein Weg in G ist eine Folge von Kanten $e_1, e_2, \dots$, so dass gilt:
 	\begin{enumerate}
 		\item $\forall i$ gilt: $e_i, e_{i+1}$ haben einen gemeinsamen Endpunkt.
@@ -158,12 +166,142 @@
 	
 	In diesem Weg entspricht $e_2$ einer Schleife an $v_2$. Ist dieser abgebildete Weg endlich, so heißen $v_1$ Anfangspunkt und $v_n$ Endpunkt. Die Länge eines Weges ist gleich der Anzahl der Kanten, die er enthält.
 	
-	Ein Kreis (Zyklus) ist ein Weg, dessen Anfangspunkt und Endpunkt gleich sind. Ein Weg heißt einfach, wenn jeder Knoten höchstens einmal vorkommt. Ein Kreis der Länge $\ne 2$ heißt einfach, wenn jeder Knoten außer Anfangs- und Endpunkt höchstens einmal vorkommt.
+	\index{Kreis}
+	\index{Zyklus}
+	\index{Kreis!einfach}
+	\index{Weg!einfach}
+	Ein Kreis (Zyklus) ist ein Weg, dessen Anfangspunkt und Endpunkt gleich sind. Ein Weg heißt einfach, wenn jeder Knoten höchstens einmal vorkommt. 
+	
+	Ein Kreis der Länge $\ne 2$ heißt einfach, wenn jeder Knoten außer Anfangs- und Endpunkt höchstens einmal vorkommt. 
+	
+	Ein Kreis der Länge 2 heißt einfach, wenn die beiden Kanten verschieden sind, und wenn jeder Knoten außer dem Start/Endpunkt höchstens einmal vorkommt und der Start/Endpunkt sonst nirgends.
+\end{definition}
+
+\begin{beispiel}
+	// TODO
+\end{beispiel}
+
+
+\begin{definition}
+	\index{Graph!zusammenhängend}
+	
+	Ein Graph $G = (V, E)$ heißt zusammenhängend, wenn es zwischen je zwei Knoten in $V$ einen Weg gibt, der sie verbindet, d.h. einer der Knoten ist Anfangspunkt und einer ist Endpunkt. 
+	
+	Es gibt für jeden Knoten $v$ der Menge $V$ einen Weg zu $v$ der Länge $0$.
 \end{definition}
 
 
 \begin{definition}
-	Ein Graph $G = (V, E)$ heißt zusammenhängend, wenn es zwischen je zwei Knoten in $V$ einen Weg gibt, der sie verbindet, d.h. einer der Knoten ist Anfangspunkt und einer ist Endpunkt. 
+	\index{Separationspunkt}
+	\index{Graph!separabel}
 	
-	Es gibt für jeden Knoten $v$ der Menge $V$ einen Weg zu $v$ der Länge $0$.
+	Sei $G = (V, E)$ ein zusammenhängender Graph. Ein Knoten $a \in V$ heißt Separationspunkt, wenn es Knoten $u$ und $v$ gibt, so dass jeder Weg zwischen $u$ und $v$ über den Knoten $a$ führt.
+	
+	Hat $G$ einen Separationspunkt, so heißt der Graph separabel, ansonsten unseparabel. Eine Kante $e$ heißt Brücke, wenn es zwei Knoten $u, v$ gibt, so dass jeder Weg von $u$ nach $v$ über die Kante $e$ läuft.
+\end{definition}
+
+
+\begin{beispiel}
+	// TODO
+\end{beispiel}
+
+
+\begin{definition}
+	\index{Graph!gerichtet}
+	\index{Parallelität}
+	\index{Schleife}
+	\index{Ausgrad}
+	\index{Ingrad}
+
+	Ein gerichteter Graph ist ein Paar $G = (V, E)$ mit der Menge der Knoten $V$, der Menge der Kanten $E$ und der Abbildung $i: E \rightarrow V \times V$. Ist $i(e) = (u, v)$, so heißt $u$ Anfangspunkt und $v$ Endpunkt von $e$.
+	
+	Ist $i(e_1) = i(e_2)$, so heißen $e_1$ und $e_2$ parallel. Ist $u \ne v$ und $i(e_1) = (u, v)$ und $i(e_2) = (v, u)$, so heißen $e_1, e_2$ antiparallel. Ist $i(e) = (v, v)$, so heißt $e$ Schleife.
+	
+	\begin{itemize}
+		\item $g_{out}(u)$: Anzahl der Kanten, die $u$ als Startpunkt haben. (Ausgrad)
+		\item $g_{in}(u)$: Anzahl der Kanten, die $u$ als Endpunkt haben. (Ingrad)
+	\end{itemize}
+\end{definition}
+
+
+\begin{bemerkung}
+	Für jeden gerichteten Graph mit $V = \{ v_1, v_2, \dots, v_n \}$ gilt: $$\sum_{i=1}^n g_{in}(v_i) = \sum_{i=1}^n g_{out}(v_i)$$
+	Begründung: Starte mit dem Graph ohne Kanten. Füge nacheinander alle Kanten ein. Das Einfügen einer Kante $e$ trägt zur Summe auf der linken Seite und zur Summe auf der rechten Seite je $1$ bei.
+\end{bemerkung}
+
+
+\begin{definition}
+	\index{Weg!gerichtet}
+	\index{Kreis!gerichtet}
+	\index{Kreis!einfach}
+	\index{Weg!einfach}
+	
+	Ein gerichteter Weg ist eine Folge von Kanten $e_1, e_2, \dots, e_n$, so dass $\forall i \in \{ 1, \dots, n-1 \}$ gilt: der Endpunkt von $e_i$ ist der Anfangspunkt von $e_{i+1}$.
+	
+	Ein endlicher gerichteter Weg heißt Kreis (Zyklus), wenn Anfangspunkt und Endpunkt übereinstimmen. Ein einfacher Weg ist ein Weg, in dem jeder Knoten nur einmal vorkommt.
+	
+	Ein gerichteter Kreis heißt einfach, wenn kein Knoten außer Anfangs- und Endpunkt mehrfach vorkommt.
+\end{definition}
+
+
+\begin{definition}
+	\index{Graph!einfach}
+
+	Ein Graph (gerichtet oder ungerichtet) heißt einfach, wenn er keine parallelen Kanten besitzt.
+\end{definition}
+
+
+\begin{definition}
+	\index{Graph!kreisfrei}
+	\index{Baum}
+	
+	Ein ungerichteter Graph $G$ heißt Kreisfrei, wenn er keinen einfachen Kreis enthält. $G$ heißt Baum, wenn $G$ kreisfrei und zusammenhängend ist.
+\end{definition}
+
+
+\begin{definition}
+	\index{Wurzel}
+	\index{Baum!gerichtet}
+
+	Sei $G = (V, E)$ ein gerichteter Graph. Ein Knoten $v \in V$ heißt Wurzel, wenn von $v$ alle Knoten $w \in V$ aus $v$ erreichbar sind, d.h. $\forall w$  existiert ein gerichteter Weg von $v$ nach $w$. $G$ heißt gerichteter Baum, wenn $G$ eine Wurzel besitzt und der zugrundeliegende ungerichtete Graph ein Baum ist.
+\end{definition}
+
+
+\begin{bemerkung}
+	$G$ ist gerichteter Baum genau dann wenn
+	\begin{enumerate}
+		\item der zugrundeliegende ungerichtete Graph kreisfrei ist,
+		\item einer der Knoten $r \in V$ die Bedingung $g_{in}(r) = 0$ erfüllt,
+		\item alle anderen Knoten $v \in V$ die Bedingung $g_{in}(v) = 1$ erfüllen.
+	\end{enumerate}
+\end{bemerkung}
+
+
+\begin{definition}
+	\index{Knoten!übergeordnet}
+	\index{Graph!übergeordnet}
+
+	Sei $G$ ein gerichteter Graph, $v_1, v_2 \in V$. Ein Knoten $v \in V$ heißt \emph{übergeordnet} für $v_1, v_2$, wenn es einen Weg von $v$ nach $v_1$ und $v_2$ gibt.
+	
+	$G$ heißt übergeordnet, wenn es für je zwei Knoten $v_1, v_2$ einen Knoten $v$ gibt, der für sie übergeordnet ist.
+	
+	\begin{enumerate}
+		\item Bäume (endlich oder unendlich) sind übergeordnet.
+		\item $\bigcirc \leftarrow \bigcirc \leftarrow \bigcirc \leftarrow \dots$ ist übergeordnet.
+		\item Jeder Graph mit Wurzel ist übergeordnet.
+	\end{enumerate}
+\end{definition}
+
+
+\begin{bemerkung}
+	Jeder endliche übergeordnete Graph hat eine Wurzel.
+\end{bemerkung}
+
+
+\begin{definition}
+	\index{Quelle}
+	\index{Senke}
+
+	Sei $G = (V,E)$ ein gerichteter Graph. Ein Knoten $v \in V$ heißt Quelle, wenn $g_{in}(v) = 0$, und Senke, wenn $g_{out}(v) = 0$.
+
 \end{definition}
