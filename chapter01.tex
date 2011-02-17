@@ -178,7 +178,42 @@
 \end{definition}
 
 \begin{beispiel}
-	// TODO
+	\qquad
+	\vspace{2mm}
+	
+	\begin{tikzpicture}
+		\node (v1) at (0, 0) [draw, shape=circle] {$v_1$};
+		\node (v2) at (1, 1) [draw, shape=circle] {$v_2$};
+		
+		\draw (v1) .. controls (up:0.5) and (up: 1) .. (v2);
+		\draw (v1) .. controls (right:0.5) and (right: 1) .. (v2);
+		
+		\node (l1) at (0, 1) {$e_1$};
+		\node (l2) at (1, 0) {$e_2$};
+	
+		\node (v1a) at (3, 0) {$v_1$};
+		\node (v2a) at (4.5, 0) {$v_2$};
+		\node (v1b) at (6, 0) {$v_1$};
+		
+		\draw (v1a) -- (v2a);
+		\draw (v2a) -- (v1b);
+		
+		\node (l3) at (3.75, 0.2) {$e_1$};
+		\node (l4) at (5.25, 0.2) {$e_1$};
+		
+		\node (v1c) at (3, 1) {$v_1$};
+		\node (v2b) at (4.5, 1) {$v_2$};
+		\node (v1d) at (6, 1) {$v_1$};
+		
+		\draw (v1c) -- (v2b);
+		\draw (v2b) -- (v1d);
+		
+		\node (l5) at (3.75, 1.2) {$e_1$};
+		\node (l6) at (5.25, 1.2) {$e_2$};
+		
+		\node[text width=4cm] (l7) at (8.7, 1.05) {einfacher Kreis};
+		\node[text width=4cm] (l8) at (8.7, 0.05) {kein einfacher Kreis};
+	\end{tikzpicture}
 \end{beispiel}
 
 
@@ -201,8 +236,33 @@
 \end{definition}
 
 
+\begin{definition}
+	\index{Graph!bipartit}
+	
+	Ein Graph $G = (V, E)$ ohne Schleifen heißt bipartit (zweigeteilt), wenn es Mengen $V_1, V_2 \subseteq V$ gibt, so dass für jede Kante gilt: ein Endpunkt liegt in $V_1$, der andere in $V_2$.
+\end{definition}
+
+
 \begin{beispiel}
-	// TODO
+	\qquad
+	\vspace{2mm}
+	
+	\begin{tikzpicture}
+		\node (V1) at (0, 2.2) {$V_1$};
+		\node (V2) at (1.5, 2.2) {$V_2$};
+		
+		\node (v1) at (0, 0) [draw, shape=circle] {};
+		\node (v2) at (0, 0.8) [draw, shape=circle] {};
+		\node (v3) at (0, 1.6) [draw, shape=circle] {};
+		
+		\node (v4) at (1.5, 0) [draw, shape=circle] {};
+		\node (v5) at (1.5, 0.8) [draw, shape=circle] {};
+		\node (v6) at (1.5, 1.6) [draw, shape=circle] {};
+		
+		\draw (v3) -- (v6);
+		\draw (v1) -- (v5);
+		\draw (v3) -- (v5);
+	\end{tikzpicture}
 \end{beispiel}
 
 
