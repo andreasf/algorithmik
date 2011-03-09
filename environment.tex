@@ -1,10 +1,31 @@
-\newcounter{definition}[section]
-
 % definition
+\newcounter{definition}[section]
 \newenvironment{definition}[0]
 {
     \stepcounter{definition}
     \paragraph*{Definition \thesection.\thedefinition}
+}
+{
+
+}
+
+% lemma
+\newcounter{lemma}[section]
+\newenvironment{lemma}[0]
+{
+    \refstepcounter{lemma}
+    \paragraph*{Lemma \thelemma}
+}
+{
+
+}
+\renewcommand{\thelemma}{\thesection.\arabic{lemma}}
+
+% korollar 
+\newenvironment{korollar}[0]
+{
+    \refstepcounter{lemma}
+    \paragraph*{Korollar \thelemma}
 }
 {
 

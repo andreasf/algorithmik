@@ -1,0 +1,69 @@
+\section{B-Bäume}
+
+\begin{definition}
+    \index{B-Baum}
+
+    Ein B-Baum vom Typ $t$ mit $t \geq 2, t \in \mathbb{N}$, ist ein
+    gerichteter Baum $T$ mit Wurzel $T.\mathit{root}$, und hat die folgenden
+    Eigenschaften:
+    \begin{enumerate}
+        \item Jeder Knoten $x$ enthält die folgenden Informationen:
+            $$ (\underbrace{x.n}_{\mathclap{\textsl{Anzahl der Schlüssel im
+            Knoten}}}, x.c_1, x.\mathit{key}_1,
+            \overbrace{x.c_2}^{\mathclap{\textsl{Pointer auf Kindknoten}}},
+            \underbrace{x.\mathit{key}_2}_{\mathclap{\textsl{Schlüssel}}}
+            \dots, x.\mathit{key}_{x.n}, x.c_{x.n+1},
+            \overbrace{x.\mathit{leaf}}^{\mathclap{\textsl{Boolean: Knoten ist
+            Blatt}}}) $$
+
+        \item $x.\mathit{key}_i \leq x.\mathit{key}_{i+1} \forall i$ \qquad
+        (d.h. gleiche Schlüssel sind erlaubt)
+
+        \item Für jeden Schlüssel $k_i$ gilt: steht $k_i$ im Unterbaum mit
+        Wurzel $x.c_i$, so gilt: $$k_1 \leq x.\mathit{key}_1 \leq k_2 \leq
+        x.\mathit{key}_2 \leq \cdots \leq x.\mathit{key}_{x.n} \leq k_{n+1}
+        \qquad (i=1 \dots n+1)$$
+
+        \item Alle Blätter haben die gleiche Tiefe.
+
+        \item Jeder Knoten außer der Wurzel enthält mindestens $t-1$ Schlüssel,
+        die Wurzel mindestens $1$ Schlüsel.
+
+        \item Jeder Knoten enthält höchstens $2t-1$ Schlüssel. Bei $2t-1$
+        Schlüsseln ist der Knoten voll.
+    \end{enumerate}
+\end{definition}
+
+
+\begin{lemma}
+    \index{B-Baum!Höhe}
+
+    Ist $n \geq 1$, so gilt für einen B-Baum $T$ vom Typ $t, t \in \mathbb{N},
+    t \geq 2$, mit $n$ Schlüsseln: $h(T) \leq \log_t(\frac{n+1}{2})$
+\end{lemma}
+
+
+\begin{beweis}
+    Die Wurzel hat mindestens $1$ Schlüssel, die anderen Knoten mindestens
+    $t-1$ Schlüssel. Die Anzahl der Pointer auf Kindknoten ist an die Anzahl
+    der Schlüssel gebunden. Es gibt (sofern der Baum voll genug ist) deshalb
+    mindestens $2$ Knoten der Tiefe $1$, und mindestens $2t$ Knoten der Tiefe
+    $2$, $2t^2$ Knoten der Tiefe 3, usw. In Tiefe $n$ gibt es mindestens
+    $2t^{n-1}$ Knoten. 
+    \begin{align}
+        n \geq& \overbrace{1}^{\mathclap{\textsl{Schlüssel in Wurzel}}} + (t-1)
+        \overbrace{\sum_{i=1}^n 2t^{i-1}}^{\mathclap{\textsl{andere
+        Schlüssel}}} \\
+        n \geq& 1+2(t-1) \sum_{i=1}^n t^{i-1} = 1+2(t^n-1) = 2t^n-1 \\
+        \frac{n+1}{2} \geq& t^n \qquad \text{($\log$ zur Basis $t$ anwenden)}  \\
+        n \leq& \log_t(\frac{n+1}{2})
+    \end{align}
+    % TODO bild 
+\end{beweis}
+
+
+\begin{bemerkung}
+    Ebenfalls Teil der Vorlesung sind die Algorithmen \verb+B-Tree-Search+,
+    \verb+B-Tree-Create+, \verb+B-Tree-Split-Child+, \verb+B-Tree-Insert+ und
+    \verb+B-Tree-Insert-Nonfull+.
+\end{bemerkung}
