@@ -258,18 +258,320 @@
     \end{enumerate}
     $v$ erhält dann die Markierung ``$e$''. 
 
-    Im 1. Fall, also bei Vorwärtsmarkierung, wird $\Delta(e) = c(e) - f(e)$. Im 2. Fall wird $\Delta(e) = f(e)$. In beiden Fällen ist $\Delta(e) > 0$.
+    Im 1. Fall, also bei Vorwärtsmarkierung, wird $\Delta(e) = c(e) - f(e)$. Im
+    2. Fall wird $\Delta(e) = f(e)$. In beiden Fällen ist $\Delta(e) > 0$.
 \end{definition}
 
 
 \begin{definition}
     \index{Ford-Fulkerson-Algorithmus}
 
-    \emph{Algorithmus von Ford und Fulkerson zur Bestimmung einer Flussfunktion mit maximalem totalen Fluss}. Gegeben sei ein Netzwerk $(G, c, s, t)$ und eine Flussfunktion $f$ für dieses Netzwerk. Der folgende Algorithmus verändert $f$ mit dem Ziel, den totalen Fluss zu maximieren.
+    \emph{Algorithmus von Ford und Fulkerson zur Bestimmung einer Flussfunktion
+    mit maximalem totalen Fluss}. Gegeben sei ein Netzwerk $(G, c, s, t)$ und
+    eine Flussfunktion $f$ für dieses Netzwerk. Der folgende Algorithmus
+    verändert $f$ mit dem Ziel, den totalen Fluss zu maximieren.
 
     \begin{enumerate}
         \item Setze $f(e) := 0 \qquad \forall e \in E$
-        \item Kennzeichne $s$ als ``markiert'' und alle anderen Knoten als ``unmarkiert''
-        \item Suche einen Knoten $v$, der vorwärts oder rückwärts markiert werden kann. Gibt es keinen solchen Knoten, dann halte an. Das damit gefundene $f$ hat maximalen totalen Fluss. Gibt es einen solchen Knoten $v$, dann markiere $v$ mit der Kante $e$, die zur Markierung geführt hat. Ist $v = t$, dann gehe zu Schritt 4, ansonsten zu Schritt 3.
+        \item Kennzeichne $s$ als ``markiert'' und alle anderen Knoten als
+            ``unmarkiert''
+        \item Suche einen Knoten $v$, der vorwärts oder rückwärts markiert
+            werden kann. Gibt es keinen solchen Knoten, dann halte an. Das damit
+            gefundene $f$ hat maximalen totalen Fluss. Gibt es einen solchen Knoten
+            $v$, dann markiere $v$ mit der Kante $e$, die zur Markierung geführt
+            hat. Ist $v = t$, dann gehe zu Schritt 4, ansonsten zu Schritt 3.
+        \item Starte bei $t$ und rekonstruiere mittels der Markierungen den
+            ``Weg'', auf dem man von $s$ nach $t$ gelangt ist. Dies sei 
+            \begin{center}
+                \begin{tipi}
+                    \node (s) at (0, 0) {$s=v_0$};
+                    \node (v1) at (1.5, 0) {$v_1$};
+                    \node (v2) at (3, 0) {$v_{e-1}$};
+                    \node (v3) at (4.5, 0) {$v_l=t$};
+
+                    \draw (s) -- (v1);
+                    \draw (v2) -- (v3);
+                    \draw[dotted] (v1) -- (v2);
+
+                    \node (e1) at (3.75, 0.2) {$e_l$};
+                    \node (e2) at (0.75, 0.2) {$e_1$};
+                \end{tipi} 
+            \end{center}
+            Sei $\Delta = min(\{\Delta(e_i): 1 \leq i \leq l \} )$. Ist $e_i$
+            eine Vorwärtskante, so setze $f(e_i) := f(e_i) + \Delta$,
+            andernfalls $f(e_i) := f(e_i) - \Delta$.
+        \item Gehe zu Schritt 2.
     \end{enumerate}
 \end{definition}
+
+
+\begin{beispiel}
+    In diesem Beispiel wird der Ford-Fulkerson-Algorithmus auf ein Netzwerk
+    angewendet. Die folgende Abbildung zeigt das Netzwerk vor dem ersten
+    Schritt.
+    \begin{center}
+        \begin{tipi}
+            \node (s) at (0, 0) [draw, shape=circle] {$s$};
+            \node (a) at (1.25, 1.25) [draw, shape=circle] {$a$};
+            \node (b) at (3, 1.25) [draw, shape=circle] {$b$};
+            \node (c) at (1.25, -1.25) [draw, shape=circle] {$c$};
+            \node (d) at (3, -1.25) [draw, shape=circle] {$d$};
+            \node (t) at (4.25, 0) [draw, shape=circle] {$t$};
+
+            \draw[->] (s) -- (a);
+            \draw[->] (a) -- (b);
+            \draw[<-] (a) -- (d);
+            \draw[->] (b) -- (t);
+            \draw[->] (d) -- (t);
+            \draw[->] (c) -- (d);
+            \draw[->] (s) -- (c);
+            \draw[->] (b) -- (c);
+
+            \node (l1) at (0.75, 0.4) {$e_1$};
+            \node (l2) at (0.75, -0.4) {$e_2$};
+            \node (l3) at (2.125, 1.05) {$e_3$};
+            \node (l6) at (2.125, -1.05) {$e_6$};
+            \node (l8) at (3.5, -0.4) {$e_8$};
+            \node (l4) at (2.75, -0.4) {$e_4$};
+            \node (l5) at (1.55, -0.4) {$e_5$};
+            \node (l7) at (3.5, 0.4) {$e_7$};
+
+            \node(f1) at (0.25, 0.75) {$\nicefrac{15}{0}$};
+            \node(f2) at (0.25, -0.75) {$\nicefrac{4}{0}$};
+            \node(f6) at (2.125, -1.55) {$\nicefrac{10}{0}$};
+            \node(f3) at (2.125, 1.55) {$\nicefrac{12}{0}$};
+            \node(f8) at (3.9, -0.9) {$\nicefrac{10}{0}$};
+            \node(f7) at (3.8125, 0.8125) {$\nicefrac{7}{0}$};
+            \node(f4) at (1.55, 0.4) {$\nicefrac{5}{0}$};
+            \node(f5) at (2.75, 0.4) {$\nicefrac{3}{0}$};
+        \end{tipi}
+    \end{center}
+
+    ``Wege'' in den Iterationsschritten, gefundenes $\Delta$, neue Flusswerte:
+    \begin{enumerate}
+        \item 
+            \begin{tipi}[baseline]
+                \node (s) at (0, 0) {$s$};
+                \node (c) at (1.5, 0) {$c$};
+                \node (d) at (3, 0) {$d$};
+                \node (a) at (4.5, 0) {$a$};
+                \node (b) at (6, 0) {$b$};
+                \node (t) at (7.5, 0) {$t$};
+
+                \draw[->] (s) -- (c);
+                \draw[->] (c) -- (d);
+                \draw[->] (d) -- (a);
+                \draw[->] (a) -- (b);
+                \draw[->] (b) -- (t);
+
+                \node (l1) at (0.75, 0.2) {$e_2$};
+                \node (l2) at (2.25, 0.2) {$e_6$};
+                \node (l3) at (3.75, 0.2) {$e_4$};
+                \node (l4) at (5.25, 0.2) {$e_3$};
+                \node (l5) at (6.75, 0.2) {$e_7$};
+
+                \node (delta) at (-0.8, -0.3) {$\Delta(e):$};
+                \node (d1) at (0.75, -0.3) {$4$};
+                \node (d2) at (2.25, -0.3) {$10$};
+                \node (d3) at (3.75, -0.3) {$5$};
+                \node (d4) at (5.25, -0.3) {$12$};
+                \node (d5) at (6.75, -0.3) {$7$};
+            \end{tipi} \\
+            $\Rightarrow \Delta = 4$ \\
+            $\Rightarrow e_2 \rightarrow \nicefrac{4}{4} \qquad e_3 \rightarrow
+            \nicefrac{12}{4} \qquad e_6 \rightarrow \nicefrac{10}{4} \qquad e_7
+            \rightarrow \nicefrac{7}{4} \qquad e_4 \rightarrow \nicefrac{5}{4}$ \\
+            $\Rightarrow F = 4$
+
+        \item \begin{tipi}[baseline]
+                \node (s) at (0, 0) {$s$};
+                \node (c) at (1.5, 0) {$a$};
+                \node (d) at (3, 0) {$b$};
+                \node (a) at (4.5, 0) {$c$};
+                \node (b) at (6, 0) {$b$};
+                \node (t) at (7.5, 0) {$t$};
+
+                \draw[->] (s) -- (c);
+                \draw[->] (c) -- (d);
+                \draw[->] (d) -- (a);
+                \draw[->] (a) -- (b);
+                \draw[->] (b) -- (t);
+
+                \node (l1) at (0.75, 0.2) {$e_1$};
+                \node (l2) at (2.25, 0.2) {$e_2$};
+                \node (l3) at (3.75, 0.2) {$e_5$};
+                \node (l4) at (5.25, 0.2) {$e_6$};
+                \node (l5) at (6.75, 0.2) {$e_8$};
+
+                \node (delta) at (-0.8, -0.3) {$\Delta(e):$};
+                \node (d1) at (0.75, -0.3) {$15$};
+                \node (d2) at (2.25, -0.3) {$8$};
+                \node (d3) at (3.75, -0.3) {$3$};
+                \node (d4) at (5.25, -0.3) {$6$};
+                \node (d5) at (6.75, -0.3) {$10$};
+            \end{tipi} \\
+            $\Rightarrow \Delta = 3$ \\
+            $\Rightarrow e_1 \rightarrow \nicefrac{15}{3} \qquad e_3
+            \rightarrow \nicefrac{12}{7} \qquad e_5 \rightarrow \nicefrac{3}{3}
+            \qquad e_6 \rightarrow \nicefrac{10}{7} \qquad e_8 \rightarrow
+            \nicefrac{10}{3}$ \\
+            $\Rightarrow F = 7$
+
+        \item \begin{tipi}[baseline]
+                \node (s) at (0, 0) {$s$};
+                \node (c) at (1.5, 0) {$a$};
+                \node (d) at (3, 0) {$b$};
+                \node (a) at (4.5, 0) {$t$};
+
+                \draw[->] (s) -- (c);
+                \draw[->] (c) -- (d);
+                \draw[->] (d) -- (a);
+
+                \node (l1) at (0.75, 0.2) {$e_1$};
+                \node (l2) at (2.25, 0.2) {$e_3$};
+                \node (l3) at (3.75, 0.2) {$e_7$};
+
+                \node (delta) at (-0.8, -0.3) {$\Delta(e):$};
+                \node (d1) at (0.75, -0.3) {$12$};
+                \node (d2) at (2.25, -0.3) {$5$};
+                \node (d3) at (3.75, -0.3) {$3$};
+            \end{tipi} \\
+            $\Rightarrow \Delta = 3$ \\
+            $\Rightarrow e_1 \rightarrow \nicefrac{15}{6} \qquad e_3
+            \rightarrow \nicefrac{12}{10} \qquad e_7 \rightarrow \nicefrac{7}{7}$\\
+            $\Rightarrow F = 10$
+
+        \item \begin{tipi}[baseline]
+                \node (s) at (0, 0) {$s$};
+                \node (c) at (1.5, 0) {$a$};
+                \node (d) at (3, 0) {$d$};
+                \node (a) at (4.5, 0) {$t$};
+
+                \draw[->] (s) -- (c);
+                \draw[->] (c) -- (d);
+                \draw[->] (d) -- (a);
+
+                \node (l1) at (0.75, 0.2) {$e_1$};
+                \node (l2) at (2.25, 0.2) {$e_4$};
+                \node (l3) at (3.75, 0.2) {$e_8$};
+
+                \node (delta) at (-0.8, -0.3) {$\Delta(e):$};
+                \node (d1) at (0.75, -0.3) {$9$};
+                \node (d2) at (2.25, -0.3) {$4$};
+                \node (d3) at (3.75, -0.3) {$7$};
+            \end{tipi} \\
+            $\Rightarrow \Delta = 4$ \\
+            $\Rightarrow e_1 \rightarrow \nicefrac{15}{10} \qquad e_4
+            \rightarrow \nicefrac{5}{0} \qquad e_8 \rightarrow \nicefrac{10}{7}$\\
+            $\Rightarrow F = 14$
+
+        \item Nach $a$ und $b$ kann kein weiterer Knoten markiert werden, der
+        Algorithmus bricht ab. $f$ hat jetzt maximalen totalen Fluss.
+    \end{enumerate}
+\end{beispiel}
+
+
+\begin{lemma}
+    Nach jedem Durchlauf durch einen der Iterationsschritte des Algorithmus
+    gilt: das aktuell berechnete $f$ ist eine Flussfunktion.
+\end{lemma}
+
+
+\begin{beweis}
+    Trivial für die Schritte 1, 2, 3 und 5. Schritt 4:
+
+    Sei $f$ die Flussfunktion vor Eintritt in Schritt 4 und $f'$ die in Schritt
+    4 berechnete Funktion. $f$ erfülle die Bedingungen
+    \begin{enumerate}
+        \item $0 \leq f(e) \leq c(e)$
+        \item $\forall v \in V, v \neq s, v \neq t: \sum_{e \in \alpha(v)} f(e)
+            = \sum_{e \in \beta(v)} f(e)$
+    \end{enumerate}
+    In Schritt 4 wird ein Anreicherungspfad rekonstruiert, dies sei: 
+    \begin{center}
+        \begin{tipi}
+            \node (s) at (0, 0) {$s=v_0$};
+            \node (v1) at (1.5, 0) {$v_1$};
+            \node (v2) at (3, 0) {};
+            \node (v3) at (4.5, 0) {$v_k=t$};
+
+            \draw (s) -- (v1);
+            \draw (v2) -- (v3);
+            \draw[dotted] (v1) -- (v2);
+
+            \node (e1) at (3.75, 0.2) {$e_k$};
+            \node (e2) at (0.75, 0.2) {$e_1$};
+        \end{tipi} 
+    \end{center}
+    Die Definition von $\Delta(e)$ und $\Delta$ garantiert, dass $0 \leq f'(e)
+    \leq c(e)$. Zu zeigen bleibt das Flusserhaltungsgesetz für $f'$. Wir müssen
+    nur die Knoten anschauen, die auf dem Weg liegen, d.h. $v_1, \dots,
+    v_{k-1}$. Sei $v_i$ einer dieser Knoten. Es können folgende Fälle
+    auftreten: 
+    \begin{itemize}
+        \item Fall 1: 
+            \begin{tipi}[baseline]
+                \node (v0) at (0, 0) {};
+                \node (vi) at (2, 0) {$v_i$};
+                \node (v1) at (4, 0) {};
+
+                \draw[->] (v0) -- (vi);
+                \draw[->] (vi) -- (v1);
+
+                \node (ei) at (1, 0.2) {$e_i$};
+                \node (li) at (1, -0.3) {$\in \alpha(v_i)$};
+                \node (ei1) at (3, 0.2) {$e_{i+1}$};
+                \node (li1) at (3, -0.3) {$\in \beta(v_i)$};
+            \end{tipi} \\
+            $\Delta$ wird zu beiden Kantenflüssen addiert -- zu $\sum_{e \in
+            \alpha(v)} f(e)$ und zu $\sum_{e \in \beta(v)} f(e)$.
+        
+        \item Fall 2: 
+            \begin{tipi}[baseline]
+                \node (v0) at (0, 0) {};
+                \node (vi) at (2, 0) {$v_i$};
+                \node (v1) at (4, 0) {};
+
+                \draw[->] (v0) -- (vi);
+                \draw[<-] (vi) -- (v1);
+
+                \node (ei) at (1, 0.2) {$e_i$};
+                \node (li) at (1, -0.3) {$\in \alpha(v_i)$};
+                \node (ei1) at (3, 0.2) {$e_{i+1}$};
+                \node (li1) at (3, -0.3) {$\in \alpha(v_i)$};
+            \end{tipi} \\
+            $\Delta$ wird zur Summe addiert und (wegen Rückwärtskante) subtrahiert.
+        
+        \item Fall 3: 
+            \begin{tipi}[baseline]
+                \node (v0) at (0, 0) {};
+                \node (vi) at (2, 0) {$v_i$};
+                \node (v1) at (4, 0) {};
+
+                \draw[<-] (v0) -- (vi);
+                \draw[->] (vi) -- (v1);
+
+                \node (ei) at (1, 0.2) {$e_i$};
+                \node (li) at (1, -0.3) {$\in \beta(v_i)$};
+                \node (ei1) at (3, 0.2) {$e_{i+1}$};
+                \node (li1) at (3, -0.3) {$\in \beta(v_i)$};
+            \end{tipi} \\
+            Analog zu Fall 2.
+        
+        \item Fall 4: 
+            \begin{tipi}[baseline]
+                \node (v0) at (0, 0) {};
+                \node (vi) at (2, 0) {$v_i$};
+                \node (v1) at (4, 0) {};
+
+                \draw[<-] (v0) -- (vi);
+                \draw[<-] (vi) -- (v1);
+
+                \node (ei) at (1, 0.2) {$e_i$};
+                \node (li) at (1, -0.3) {$\in \beta(v_i)$};
+                \node (ei1) at (3, 0.2) {$e_{i+1}$};
+                \node (li1) at (3, -0.3) {$\in \alpha(v_i)$};
+            \end{tipi} \\
+            Analog zu Fall 1.
+    \end{itemize}
+\end{beweis}
