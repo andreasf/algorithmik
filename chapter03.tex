@@ -557,8 +557,7 @@
                 \node (li1) at (3, -0.3) {$\in \beta(v_i)$};
             \end{tipi} \\
             Analog zu Fall 2.
-        
-        \item Fall 4: 
+                \item Fall 4: 
             \begin{tipi}[baseline]
                 \node (v0) at (0, 0) {};
                 \node (vi) at (2, 0) {$v_i$};
@@ -575,3 +574,79 @@
             Analog zu Fall 1.
     \end{itemize}
 \end{beweis}
+\begin{lemma}
+Hält der Algorithmus von Fud/Fulkerson an, dann besitzt die zu diesem Zeitpunkt berechnete Flußfunktion f maximalen totalen Fluß.
+\end{lemma}
+\begin{beweis}
+Wenn der Algorithmus anhält, dann tut er dies in Schritt 3 und t wurde nicht erreicht.  Sei S die Menge der Knoten, die beim letztes Markieren markiert wurden.  Auf jeden Fall ist s $\in$ S und $t \notin S$, $\overline{S} := (V,S)$.
+
+Sei $x \rightarrow (e)y \in E_{S\overline{S}}$, dann ist f(e) = c(e) weil sonst entlang dieser kante die Markierung festgesetzt werden könnte.  x<-(p)y $\in E_{S\overline{S}}$, dann muss $f(e)=0$.  
+
+Mit Lemma 3.1 folgt F=$\sum_{e \in E_{S\overline{S}}} f(e) - \sum_{e \in E_{\overline{S}S}} f(e) =
+\sum_{e \in E_{S\overline{S}}} c(e) = c(S)$
+
+Mit Lemma 3.3 folgt F maximal.
+\end{beweis}
+
+\begin{lemma}
+Ist $c:= E \rightarrow \mathbb{N} $, so hält der Algorithmus immer an.
+\end{lemma}
+
+\begin{beweis}
+ist $c:= E \rightarrow \mathbb{N} $ so wird in jedem Durchlauf der totale Fluß um eine natürliche Zahl $\Delta$ erhöht.  Andererseits gilt $F \leq c(S)$ für eine beliebige Menge $S \subseteq V$, $s \in S$, $t \notin S$
+\end{beweis}
+
+\begin{beispiel}
+Frage: c: E $\rightarrow$ Reele Zahlen : V
+
+Beispiel: Kosten können sehr hoch werden im Fall $c:E \rightarrow \mathbb{N} $
+%					a		
+%	10^6/0			10^6/0
+%s			1/0				t			F = 2*10^6
+%	10^6/0			10^6/0
+%				b
+
+1. Markierung: $ s \rightarrow a \rightarrow b \rightarrow t, \Delta = 1$
+
+2. Markierung: $ s \rightarrow b \rightarrow a \rightarrow t, \Delta = 1$
+
+insgesamt $2*10^6$ Markierungssequenzen, d.h. Abhängigkeit von der kapazität.
+\end{beispiel}
+
+\begin{definition}
+Satz von Edmond und karp:
+
+Verwendet BFS beim Markieren und wählt jeweils den kürzesten Anreichungspfad, dann terminiert der Algorithmus in $O(|V|^3*E)$ Schritten. (Vorausgesetzt die vorkommenden reellen Zalen können jeweils in einem Schritt bearbeitet werden.
+
+\end{definition}
+
+\begin{beispiel}
+x sei große Zahl, $x \in \mathbb{N}$, $phi:= (wurzel(5)-1)/2$ (Lösung von $x^2+x-1=0$).  
+
+Insbesondere gilt: $phi^2+phi-1=0$, also $phi^(k+1)+phi^k = phi(k-1)$, $k \ge 1$
+%				a
+%							  x/phi->
+%	x->			1/phi<-			
+%s	  x/1->		b						t
+%				1/1-phi->	  x/1->
+%				c	
+%	x->			phi/phi<-	 x->
+%	
+%				d
+
+$F= 2x +1$
+
+Berechnet:$ \Delta =1, \Delta = phi, \Delta = phi, \Delta = phi^2, \Delta = phi^2$
+
+$1+2* \sum_{k=1}^{\infty} phi^k = 1 + 2*(1/(1-phi)) = 4 + wurzel(5) <7$
+
+Typ0: Weg $s \rightarrow b \rightarrow c \rightarrow t : \Delta =1$
+
+Typ1: Weg $s \rightarrow d \rightarrow c \rightarrow b \rightarrow a \rightarrow t 1: \Delta = phi, 2:\Delta = 1-phi = phi^2$
+
+Typ2: Weg $s->b->c<-d->t : \Delta = phi$
+
+Typ3: Weg $s->a<-b->c->t : \Delta = 1:phi^2$
+
+Reihung 0,1,2,1,3
+\end{beispiel}
